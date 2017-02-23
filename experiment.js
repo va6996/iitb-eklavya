@@ -35,25 +35,14 @@ var wireWidth;
 var wireHeight;
 
 var level;
-
+var resistance;
 var myResistanceX;
 var myResistanceY;
 var myResistanceZ;
-var posHolder1;
-var posHolder2;
-var posHolder3;
-var posHolder4;
-var posHolder5;
-var posHolder6;
-var posHolder7;
-var posHolder8;
-var posR1;
-var posR2;
-var posR3;
-var posR4;
-var posR5;
-var posR6;
-
+var posHolder;
+var posR;
+var levelPositions;
+var currentLevel;
 /* Vinayak */
 /******************* Interaction functions ***********************/
 
@@ -215,21 +204,35 @@ function initialiseControlVariables()
 
 function initialisePositions()
 {
-    posHolder1 = new THREE.Vector3(myCenterX - 5, myCenterY, 0);
-    posHolder2 = new THREE.Vector3(myCenterX + 5, myCenterY, 0);
-    posHolder3 = new THREE.Vector3(myCenterX, myCenterY + 7, 0);
-    posHolder4 = new THREE.Vector3(myCenterX - 5, myCenterY + 7, 0);
-    posHolder5 = new THREE.Vector3(myCenterX + 5, myCenterY + 7, 0);
-    posHolder6 = new THREE.Vector3(myCenterX, myCenterY, 0);
-    posHolder7 = new THREE.Vector3(myCenterX + 10, myCenterY, 0);
-    posHolder8 = new THREE.Vector3(myCenterX - 10, myCenterY, 0);
+    wireWidth = 30;
+    wireHeight = 15;
 
-    posR1 = new THREE.Vector3(myCenterX - 7, myCenterY + wireHeight * 2 + 2, 0);
-    posR2 = new THREE.Vector3(myCenterX, myCenterY + wireHeight * 2 + 2, 0);
-    posR3 = new THREE.Vector3(myCenterX + 7, myCenterY + wireHeight * 2 + 2, 0);
-    posR4 = new THREE.Vector3(myCenterX - 7, myCenterY + wireHeight * 2 - 2, 0);
-    posR5 = new THREE.Vector3(myCenterX, myCenterY + wireHeight * 2 - 2, 0);
-    posR6 = new THREE.Vector3(myCenterX + 7, myCenterY + wireHeight * 2 - 2, 0);
+    posR = [];
+    posHolder = [];
+    resistance = [];
+    levelPositions = [];
+
+    posHolder[1] = new THREE.Vector3(myCenterX - 5, myCenterY, 0);
+    posHolder[2] = new THREE.Vector3(myCenterX + 5, myCenterY, 0);
+    posHolder[3] = new THREE.Vector3(myCenterX, myCenterY + 7, 0);
+    posHolder[4] = new THREE.Vector3(myCenterX - 5, myCenterY + 7, 0);
+    posHolder[5] = new THREE.Vector3(myCenterX + 5, myCenterY + 7, 0);
+    posHolder[6] = new THREE.Vector3(myCenterX, myCenterY, 0);
+    posHolder[7] = new THREE.Vector3(myCenterX + 10, myCenterY, 0);
+    posHolder[8] = new THREE.Vector3(myCenterX - 10, myCenterY, 0);
+
+    posR[1] = new THREE.Vector3(myCenterX - 7, myCenterY + wireHeight * 2 + 2, 0);
+    posR[2] = new THREE.Vector3(myCenterX, myCenterY + wireHeight * 2 + 2, 0);
+    posR[3] = new THREE.Vector3(myCenterX + 7, myCenterY + wireHeight * 2 + 2, 0);
+    posR[4] = new THREE.Vector3(myCenterX - 7, myCenterY + wireHeight * 2 - 2, 0);
+    posR[5] = new THREE.Vector3(myCenterX, myCenterY + wireHeight * 2 - 2, 0);
+    posR[6] = new THREE.Vector3(myCenterX + 7, myCenterY + wireHeight * 2 - 2, 0);
+
+    levelPositions[1] = [1, 2];
+    levelPositions[2] = [1, 2, 3];
+    levelPositions[3] = [1, 2, 4, 5];
+    levelPositions[4] = [6, 7, 8, 3];
+    levelPositions[5] = [6, 7, 8, 4, 5];
 }
 function initialiseControls()
 {
@@ -418,8 +421,7 @@ var texture;
 
     initialisePositions();
 
-    wireWidth = 30;
-    wireHeight = 15;
+    currentLevel = 5;
 
     geometry = new THREE.Geometry();
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth, myCenterY + wireHeight, 0));
@@ -441,9 +443,9 @@ var texture;
 
     geometry = new THREE.BoxBufferGeometry( 22, 8.5, 0 );
     material = new THREE.MeshBasicMaterial( {color: 0xaa0000} );
-    var cube = new THREE.Mesh( geometry, material );
-    cube.position.set(myCenterX, myCenterY + wireHeight * 2, 0);
-    //PIEaddElement(cube);
+    var resistorBox = new THREE.Mesh( geometry, material );
+    resistorBox.position.set(myCenterX, myCenterY + wireHeight * 2, 0);
+    PIEaddElement(resistorBox);
 
     function nextLevel(){
         console.log("Hello");
@@ -463,18 +465,14 @@ var texture;
     //generateHolder(posHolder1);
     //generateHolder(posHolder2);
     //generateHolder(posHolder3);
-    generateHolder(posHolder4);
-    generateHolder(posHolder5);
-    generateHolder(posHolder6);
-    generateHolder(posHolder7);
-    generateHolder(posHolder8);
-    
-    var resistance1 = generateResistance(posR1);
-    var resistance2 = generateResistance(posR2);
-    var resistance3 = generateResistance(posR3);
-    var resistance4 = generateResistance(posR4);
-    var resistance5 = generateResistance(posR5);
-    var resistance6 = generateResistance(posR6);
+    generateHolder(posHolder[4]);
+    generateHolder(posHolder[5]);
+    generateHolder(posHolder[6]);
+    generateHolder(posHolder[7]);
+    generateHolder(posHolder[8]);
+
+    for(var i = 1; i < 7; i++)
+        resistance[i] = generateResistance(posR[i]);
 
     geometry = new THREE.BoxGeometry( mySceneW * 2, mySceneH * 2, 0 );
     material = new THREE.MeshLambertMaterial( {color: 0x55fA67} );
@@ -574,22 +572,27 @@ var tempT;          /* Temporary time */
 
 
 function checkResistorPosition(resistor){
-    myResistanceX = resistor.position.x;
-    myResistanceY = resistor.position.y;
-    myResistanceZ = resistor.position.z;
-    
-    if (myResistanceX < (myCenterX + 5) && myResistanceX > myCenterX - 5 && 
-        myResistanceY < (myCenterY + 5) && myResistanceY > myCenterY - 5){ 
-        myResistanceX = myCenterX; 
-        myResistanceY = myCenterY;
-    }
-    else { 
-        myResistanceY = myCenterY - 30; 
-        myResistanceX = myCenterX - 30;
+    myResistanceX = resistor.defaultPosition.x;
+    myResistanceY = resistor.defaultPosition.y;
+
+    for (var j in levelPositions[currentLevel]){
+        var i = levelPositions[currentLevel][j];
+        if (resistor.position.x < (posHolder[i].x + 2.5) && resistor.position.x > (posHolder[i].x - 2.5) && 
+            resistor.position.y < (posHolder[i].y + 1.25) && resistor.position.y > (posHolder[i].y - 1.25)){ 
+            myResistanceX = posHolder[i].x; 
+            myResistanceY = posHolder[i].y;
+            break;
+        }
     }
 
-    resistor.position.set(myResistanceX, myResistanceY, myResistanceZ);
+    for (var j in resistance){
+        if (resistance[j].position.x == myResistanceX && resistance[j].position.y == myResistanceY){
+            myResistanceX = resistor.defaultPosition.x;
+            myResistanceY = resistor.defaultPosition.y;
+        }
+    }
 
+    resistor.position.set(myResistanceX, myResistanceY, 0);
 }
 
 function setPosition( position, object){
@@ -601,13 +604,12 @@ function generateResistance(position){
     geometry = new THREE.CylinderBufferGeometry(1.25,1.25, 5, 32, 32, false);
     material = new THREE.MeshBasicMaterial( {color: 0x8b1904} );
     var resistance = new THREE.Mesh( geometry, material );
-    console.log(position);
     setPosition(position, resistance);
     resistance.rotateZ(1.57);
-    //resistance.position = position;
-    console.log(position);
+    resistance.defaultPosition = position;
     PIEaddElement(resistance);
     PIEdragElement(resistance);
+    PIEsetDrag(resistance, console.log("Hello"));
     return resistance;
 }
 
@@ -623,11 +625,12 @@ function PIEmouseUp(b) {
     var a;
     b.defaultPrevented = true;
     if (PIEselectedDrag != null) {
+        checkResistorPosition(PIEselectedDrag);
         PIEdefaultDragEnd(PIEselectedDrag);
         PIEselectedDrag = null
     }
     PIEscreenElem.style.cursor = "auto"
 
-    checkResistorPosition(cylinder);
+    
 }
 /******************* Update (animation changes) code ***********************/
