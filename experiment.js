@@ -43,6 +43,8 @@ var posHolder;
 var posR;
 var levelPositions;
 var currentLevel;
+var resistanceValues;
+var answers;
 /* Vinayak */
 /******************* Interaction functions ***********************/
 
@@ -233,6 +235,10 @@ function initialisePositions()
     levelPositions[3] = [1, 2, 4, 5];
     levelPositions[4] = [6, 7, 8, 3];
     levelPositions[5] = [6, 7, 8, 4, 5];
+
+    resistanceValues = [0, 2, 3, 1, 10, 6, 4];
+
+    answers = [0, 11, 5, 2.5, 3, 5.5];
 }
 function initialiseControls()
 {
@@ -421,7 +427,8 @@ var texture;
 
     initialisePositions();
 
-    currentLevel = 5;
+
+    currentLevel = 1;
 
     geometry = new THREE.Geometry();
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth, myCenterY + wireHeight, 0));
@@ -439,17 +446,13 @@ var texture;
     geometry.vertices.push(new THREE.Vector3(myCenterX + 15, myCenterY, 0));
     material = new THREE.LineBasicMaterial({color:0xffffff, linewidth:3 });
     var wireExtra = new THREE.Line( geometry, material );
-    PIEaddElement(wireExtra);
+    //PIEaddElement(wireExtra);
 
     geometry = new THREE.BoxBufferGeometry( 22, 8.5, 0 );
     material = new THREE.MeshBasicMaterial( {color: 0xaa0000} );
     var resistorBox = new THREE.Mesh( geometry, material );
-    resistorBox.position.set(myCenterX, myCenterY + wireHeight * 2, 0);
+    resistorBox.position.set(myCenterX, myCenterY + 2 * wireHeight, 0);
     PIEaddElement(resistorBox);
-
-    function nextLevel(){
-        console.log("Hello");
-    }
 
     geometry = new THREE.Geometry();
     geometry.vertices.push(new THREE.Vector3(0, 5, 0));
@@ -460,25 +463,33 @@ var texture;
     var next= new THREE.Mesh( geometry, material );
     next.position.set(myCenterX + wireWidth + 10, myCenterY + wireHeight / 2, 0);
     PIEaddElement(next);
-    next.addEventListener("click", nextLevel);
 
-    //generateHolder(posHolder1);
-    //generateHolder(posHolder2);
-    //generateHolder(posHolder3);
-    generateHolder(posHolder[4]);
-    generateHolder(posHolder[5]);
-    generateHolder(posHolder[6]);
-    generateHolder(posHolder[7]);
-    generateHolder(posHolder[8]);
+    for (var j in levelPositions[currentLevel]){
+        var i = levelPositions[currentLevel][j];
+        generateHolder(posHolder[i]);
+    }
+
+    if(currentLevel > 1)
+        PIEaddElement(wireExtra);
 
     for(var i = 1; i < 7; i++)
-        resistance[i] = generateResistance(posR[i]);
+        resistance[i] = generateResistance(i);
+
+    calculateResistance();
 
     geometry = new THREE.BoxGeometry( mySceneW * 2, mySceneH * 2, 0 );
     material = new THREE.MeshLambertMaterial( {color: 0x55fA67} );
     myBack = new THREE.Mesh( geometry, material );
     myBack.position.set(myCenterX, myCenterY, backB);
     PIEaddElement(myBack);
+
+
+    
+    // if (a.length > 0) {
+    //     console.log(a[0].object.position);
+    // }
+    // else
+    //     console.log("umm");
 
     /* Instantiate experiment controls */
     initialiseControls();
@@ -600,16 +611,16 @@ function setPosition( position, object){
     object.position.set(position.x, position.y, position.z);
 }
 
-function generateResistance(position){
+function generateResistance(i){
     geometry = new THREE.CylinderBufferGeometry(1.25,1.25, 5, 32, 32, false);
     material = new THREE.MeshBasicMaterial( {color: 0x8b1904} );
     var resistance = new THREE.Mesh( geometry, material );
-    setPosition(position, resistance);
+    setPosition(posR[i], resistance);
     resistance.rotateZ(1.57);
-    resistance.defaultPosition = position;
+    resistance.defaultPosition = posR[i];
+    resistance.value = resistanceValues[i];
     PIEaddElement(resistance);
     PIEdragElement(resistance);
-    PIEsetDrag(resistance, console.log("Hello"));
     return resistance;
 }
 
@@ -621,16 +632,83 @@ function generateHolder(position){
     PIEaddElement(holder);
 }
 
+function calculateResistance(){
+    var value;
+    var placedResistors = [];
+    for (var j in levelPositions[currentLevel]){
+        var i = levelPositions[currentLevel][j];
+        var pos = posHolder[i];
+        var x = pos.x / mySceneW * 2 - 1;
+        var y = pos.y / mySceneH * 2 - 1;
+        console.log(x);
+        var raycaster = new THREE.Raycaster();
+        var location = new THREE.Vector2(x, y);
+        raycaster.setFromCamera(location, PIEcamera);
+        var a = raycaster.intersectObjects(PIEscene.children);
+        if (a[0].object.geometry.type == 'BoxBufferGeometry')
+            console.log('ya');
+        placedResistors[j] = a[0].object.value;
+        console.log(placedResistors);
+    }
+}
+function PIEmouseMove(b) {
+    var a;
+    b.defaultPrevented = true;
+    PIEmouseP.x = (b.clientX / PIEcanvasW) * 2 - 1;
+    PIEmouseP.y = (-(b.clientY / PIEcanvasH) * 2 + 1 );
+    PIEraycaster.setFromCamera(PIEmouseP, PIEcamera);
+    if (PIEselectedDrag != null) {
+        PIEraycaster.ray.intersectPlane(PIEdragPlane, PIEdragIntersect);
+        PIEdefaultDrag(PIEselectedDrag, PIEdragIntersect.sub(PIEdragOffset))
+    } else {
+        a = PIEraycaster.intersectObjects(PIEdragElements);
+        if (a.length > 0) {
+            PIEdragPlane.setFromNormalAndCoplanarPoint(PIEcamera.getWorldDirection(PIEdragPlane.normal), a[0].object.position);
+            if (PIEselectedHover != a[0].object) {
+                PIEdefaultHoverOFF(PIEselectedHover);
+                PIEselectedHover = a[0].object;
+                PIEdefaultHoverON(PIEselectedHover)
+            }
+            PIEscreenElem.style.cursor = "pointer"
+        } else {
+            if (PIEselectedHover != null) {
+                PIEdefaultHoverOFF(PIEselectedHover);
+                PIEselectedHover = null;
+                PIEscreenElem.style.cursor = "auto"
+            }
+        }
+    }
+}
+
+function PIEmouseDown(b) {
+    var a;
+    b.defaultPrevented = true;
+    PIEselectedDrag = null;
+    PIEraycaster.setFromCamera(PIEmouseP, PIEcamera);
+    a = PIEraycaster.intersectObjects(PIEdragElements);
+    if (a.length > 0) {
+        PIEselectedDrag = a[0].object;
+        if (PIEraycaster.ray.intersectPlane(PIEdragPlane, PIEdragIntersect)) {
+            PIEdragOffset.copy(PIEdragIntersect).sub(PIEselectedDrag.position)
+        }
+        PIEscreenElem.style.cursor = "move";
+        PIEdefaultDragStart(PIEselectedDrag)
+    }
+    // console.log(b.clientX/PIEcanvasW *2 - 1);
+    // console.log( (-(b.clientY / PIEcanvasH) * 2 + 1 ));
+    // console.log(PIEcamera.position.z);
+}
+
 function PIEmouseUp(b) {
     var a;
     b.defaultPrevented = true;
     if (PIEselectedDrag != null) {
         checkResistorPosition(PIEselectedDrag);
+        calculateResistance();
         PIEdefaultDragEnd(PIEselectedDrag);
         PIEselectedDrag = null
     }
     PIEscreenElem.style.cursor = "auto"
-
     
-}
+};
 /******************* Update (animation changes) code ***********************/
