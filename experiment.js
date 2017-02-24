@@ -240,22 +240,22 @@ function initialisePositions()
 
     answers = [0, 11, 5, 2.5, 3, 5.5];
 }
-function initialiseControls()
-{
-    initialiseControlVariables();
-    /* Create Input Panel */
-    PIEaddInputSlider(PosX, Xdefault, handleX, Xmin, Xmax, Xstep);
-    PIEaddInputSlider(PosY, Ydefault, handleY, Ymin, Ymax, Ystep);
-    PIEaddInputSlider(VelX, VXdefault, handleVX, VXmin, VXmax, VXstep);
-    PIEaddInputSlider(VelY, VYdefault, handleVY, VYmin, VYmax, VYstep);
-    PIEaddInputSlider(AccY, AYdefault, handleAY, AYmin, AYmax, AYstep);
-    /* Create Display Panel */
-    PIEaddDisplayText(PosX, Xdefault);
-    PIEaddDisplayText(PosY, Ydefault);
-    PIEaddDisplayText(VelX, VXdefault);
-    PIEaddDisplayText(VelY, VYdefault);
-    PIEaddDisplayText(AccY, AYdefault);
-}
+// function initialiseControls()
+// {
+//     initialiseControlVariables();
+//     /* Create Input Panel */
+//     PIEaddInputSlider(PosX, Xdefault, handleX, Xmin, Xmax, Xstep);
+//     PIEaddInputSlider(PosY, Ydefault, handleY, Ymin, Ymax, Ystep);
+//     PIEaddInputSlider(VelX, VXdefault, handleVX, VXmin, VXmax, VXstep);
+//     PIEaddInputSlider(VelY, VYdefault, handleVY, VYmin, VYmax, VYstep);
+//     PIEaddInputSlider(AccY, AYdefault, handleAY, AYmin, AYmax, AYstep);
+//     /* Create Display Panel */
+//     PIEaddDisplayText(PosX, Xdefault);
+//     PIEaddDisplayText(PosY, Ydefault);
+//     PIEaddDisplayText(VelX, VXdefault);
+//     PIEaddDisplayText(VelY, VYdefault);
+//     PIEaddDisplayText(AccY, AYdefault);
+// }
 
 
 /******************* End of GUI control objects code ***********************/
@@ -428,7 +428,7 @@ var texture;
     initialisePositions();
 
 
-    currentLevel = 1;
+    currentLevel = 5;
 
     geometry = new THREE.Geometry();
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth, myCenterY + wireHeight, 0));
@@ -492,7 +492,7 @@ var texture;
     //     console.log("umm");
 
     /* Instantiate experiment controls */
-    initialiseControls();
+    // initialiseControls();
 
     /* Reset all positions */
     resetExperiment();
@@ -640,16 +640,41 @@ function calculateResistance(){
         var pos = posHolder[i];
         var x = pos.x / mySceneW * 2 - 1;
         var y = pos.y / mySceneH * 2 - 1;
-        console.log(x);
         var raycaster = new THREE.Raycaster();
         var location = new THREE.Vector2(x, y);
         raycaster.setFromCamera(location, PIEcamera);
         var a = raycaster.intersectObjects(PIEscene.children);
-        if (a[0].object.geometry.type == 'BoxBufferGeometry')
-            console.log('ya');
+        if (a[0].object.geometry.type != 'CylinderBufferGeometry')
+            return;
         placedResistors[j] = a[0].object.value;
-        console.log(placedResistors);
     }
+    switch(currentLevel){
+        case 1:
+            value = placedResistors[0] + placedResistors[1];
+            break;
+        case 2:
+            value = placedResistors[0] + placedResistors[1];
+            value = 1/value + 1/placedResistors[2];
+            value = 1/value;
+            break;
+        case 3:
+            value = placedResistors[0] + placedResistors[1];
+            var val = placedResistors[2] + placedResistors[3];
+            value = 1/value + 1/val;
+            value = 1/value;
+            break;
+        case 4:
+            value = placedResistors[0] + placedResistors[1] + placedResistors[2];
+            value = 1/value + 1/placedResistors[3];
+            value = 1/value;
+            break;
+        case 5:
+            value = placedResistors[0] + placedResistors[1] + placedResistors[2];
+            var val = placedResistors[3] + placedResistors[4];
+            value = 1/value + 1/val;
+            value = 1/value;
+    }
+    console.log(value);
 }
 function PIEmouseMove(b) {
     var a;
