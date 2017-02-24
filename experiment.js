@@ -48,161 +48,161 @@ var answers;
 /* Vinayak */
 /******************* Interaction functions ***********************/
 
-/**
- * This function implements custom dragging of the ball.
- * <p>
- * It ensures that the ball is not dragged beyond the permissible boundaries.
- * In other applications you can move more than one element as well.
- * <p>
- * @param element    Pointer to ball object
- * @param newpos     New 3D position (THREE.Vector3)
- */
-function myBallDrag(element, newpos)
-{
-    myBallX = newpos.x;
-    if (newpos.x < (leftB + myBallRadius)) { myBallX = (leftB + myBallRadius) }
-    else if (newpos.x > (rightB - myBallRadius)) { myBallX = (rightB - myBallRadius) }
-    myBallY = newpos.y;
-    if (newpos.y < (bottomB + myBallRadius)) { myBallY = (bottomB + myBallRadius); }
-    else if (newpos.y > (topB - myBallRadius)) { myBallY = (topB  - myBallRadius); }
-    myBallZ = newpos.z;
+// /**
+//  * This function implements custom dragging of the ball.
+//  * <p>
+//  * It ensures that the ball is not dragged beyond the permissible boundaries.
+//  * In other applications you can move more than one element as well.
+//  * <p>
+//  * @param element    Pointer to ball object
+//  * @param newpos     New 3D position (THREE.Vector3)
+//  */
+// function myBallDrag(element, newpos)
+// {
+//     myBallX = newpos.x;
+//     if (newpos.x < (leftB + myBallRadius)) { myBallX = (leftB + myBallRadius) }
+//     else if (newpos.x > (rightB - myBallRadius)) { myBallX = (rightB - myBallRadius) }
+//     myBallY = newpos.y;
+//     if (newpos.y < (bottomB + myBallRadius)) { myBallY = (bottomB + myBallRadius); }
+//     else if (newpos.y > (topB - myBallRadius)) { myBallY = (topB  - myBallRadius); }
+//     myBallZ = newpos.z;
 
-    myBall.position.set(myBallX, myBallY, myBallZ);
-}
+//     myBall.position.set(myBallX, myBallY, myBallZ);
+// }
 
-/******************* End of Interaction functions ***********************/
+// /******************* End of Interaction functions ***********************/
 
-/******************* GUI control objects code ***********************/
-var PosX;           /* X Position Slider Label */
-var PosY;           /* Y Position Slider Label */
-var VelX;           /* X Velocity Slider Label */
-var VelY;           /* Y Velocity Slider Label */
-var AccY;           /* Y Acceleration Slider Label */
-var Xdefault;       /* X Position Slider Default Value */
-var Ydefault;       /* Y Position Slider Default Value */
-var VXdefault;      /* X Velocity Slider Default Value */
-var VYdefault;      /* Y Velocity Slider Default Value */
-var AYdefault;      /* Y Acceleration Slider Default Value */
-var Xmin;           /* X Position Slider Minimum Value */
-var Xmax;           /* X Position Slider Maximum Value */
-var Ymin;           /* Y Position Slider Minimum Value */
-var Ymax;           /* Y Position Slider Maximum Value */
-var VXmin;          /* X Velocity Slider Minimum Value */
-var VXmax;          /* X Velocity Slider Maximum Value */
-var VYmin;          /* Y Velocity Slider Minimum Value */
-var VYmax;          /* Y Velocity Slider Maximum Value */
-var AYmin;          /* Y Acceleration Slider Minimum Value */
-var AYmax;          /* Y Acceleration Slider Maximum Value */
-var Xstep;          /* X Position Slider Step */
-var Ystep;          /* Y Position Slider Step */
-var VXstep;         /* X Velocity Slider Step */
-var VYstep;         /* Y Velocity Slider Step */
-var AYstep;         /* Y Acceleration Slider Step */
+// /******************* GUI control objects code ***********************/
+// var PosX;           /* X Position Slider Label */
+// var PosY;           /* Y Position Slider Label */
+// var VelX;           /* X Velocity Slider Label */
+// var VelY;           /* Y Velocity Slider Label */
+// var AccY;           /* Y Acceleration Slider Label */
+// var Xdefault;       /* X Position Slider Default Value */
+// var Ydefault;       /* Y Position Slider Default Value */
+// var VXdefault;      /* X Velocity Slider Default Value */
+// var VYdefault;      /* Y Velocity Slider Default Value */
+// var AYdefault;      /* Y Acceleration Slider Default Value */
+// var Xmin;           /* X Position Slider Minimum Value */
+// var Xmax;           /* X Position Slider Maximum Value */
+// var Ymin;           /* Y Position Slider Minimum Value */
+// var Ymax;           /* Y Position Slider Maximum Value */
+// var VXmin;          /* X Velocity Slider Minimum Value */
+// var VXmax;          /* X Velocity Slider Maximum Value */
+// var VYmin;          /* Y Velocity Slider Minimum Value */
+// var VYmax;          /* Y Velocity Slider Maximum Value */
+// var AYmin;          /* Y Acceleration Slider Minimum Value */
+// var AYmax;          /* Y Acceleration Slider Maximum Value */
+// var Xstep;          /* X Position Slider Step */
+// var Ystep;          /* Y Position Slider Step */
+// var VXstep;         /* X Velocity Slider Step */
+// var VYstep;         /* Y Velocity Slider Step */
+// var AYstep;         /* Y Acceleration Slider Step */
 
-/*
- * This function handles the X position slider change
- * <p>
- * Updates the myBall position variable.
- * Effect is felt immediately.
- * <p>
- * @param newValue       New Value of the slider
- */
-function handleX(newValue)
-{
-    myBallX = newValue;
-    myBall.position.set(myBallX, myBallY, myBallZ);
-    PIErender();
-}
+// /*
+//  * This function handles the X position slider change
+//  * <p>
+//  * Updates the myBall position variable.
+//  * Effect is felt immediately.
+//  * <p>
+//  * @param newValue       New Value of the slider
+//  */
+// function handleX(newValue)
+// {
+//     myBallX = newValue;
+//     myBall.position.set(myBallX, myBallY, myBallZ);
+//     PIErender();
+// }
 
-/*
- * This function handles the Y position slider change
- * <p>
- * Updates the myBall position variable.
- * Effect is felt immediately.
- * <p>
- * @param newValue       New Value of the slider
- */
-function handleY(newValue)
-{
-    myBallY = newValue;
-    myBall.position.set(myBallX, myBallY, myBallZ);
-    PIErender();
-}
 
-/*
- * This function handles the X Velocity slider change
- * <p>
- * Updates the myBall velocity variable.
- * Effect is felt from the next animation frame.
- * <p>
- * @param newValue       New Value of the slider
- */
-function handleVX(newValue)
-{
-    myBallVX = newValue;
-}
+//  * This function handles the Y position slider change
+//  * <p>
+//  * Updates the myBall position variable.
+//  * Effect is felt immediately.
+//  * <p>
+//  * @param newValue       New Value of the slider
+ 
+// function handleY(newValue)
+// {
+//     myBallY = newValue;
+//     myBall.position.set(myBallX, myBallY, myBallZ);
+//     PIErender();
+// }
 
-/*
- * This function handles the Y Velocity slider change
- * <p>
- * Updates the myBall velocity variable.
- * Effect is felt from the next animation frame.
- * <p>
- * @param newValue       New Value of the slider
- */
-function handleVY(newValue)
-{
-    myBallVY = newValue;
-}
+// /*
+//  * This function handles the X Velocity slider change
+//  * <p>
+//  * Updates the myBall velocity variable.
+//  * Effect is felt from the next animation frame.
+//  * <p>
+//  * @param newValue       New Value of the slider
+//  */
+// function handleVX(newValue)
+// {
+//     myBallVX = newValue;
+// }
 
-/*
- * This function handles the Y acceleration (gravity) slider change
- * <p>
- * Updates the myBall acceleration variable.
- * Effect is felt from the next animation frame.
- * <p>
- * @param newValue       New Value of the slider
- */
-function handleAY(newValue)
-{
-    myBallAY = newValue;
-}
+// /*
+//  * This function handles the Y Velocity slider change
+//  * <p>
+//  * Updates the myBall velocity variable.
+//  * Effect is felt from the next animation frame.
+//  * <p>
+//  * @param newValue       New Value of the slider
+//  */
+// function handleVY(newValue)
+// {
+//     myBallVY = newValue;
+// }
 
-function initialiseControlVariables()
-{
-    /* Labels */
-    PosX="X";                  /* X Position Slider Label */
-    PosY="Y";                  /* Y Position Slider Label */
-    VelX="VX";                 /* X Velocity Slider Label */
-    VelY="VY";                 /* Y Velocity Slider Label */
-    AccY="AY";                 /* Y Acceleration Slider Label */
+// /*
+//  * This function handles the Y acceleration (gravity) slider change
+//  * <p>
+//  * Updates the myBall acceleration variable.
+//  * Effect is felt from the next animation frame.
+//  * <p>
+//  * @param newValue       New Value of the slider
+//  */
+// function handleAY(newValue)
+// {
+//     myBallAY = newValue;
+// }
 
-    /* Default (initial) Values */
-    Xdefault=myCenterX;        /* X Position Slider Default Value */
-    Ydefault=myCenterY;        /* Y Position Slider Default Value */
-    VXdefault=0.1;             /* X Velocity Slider Default Value */
-    VYdefault=0.1;             /* Y Velocity Slider Default Value */
-    AYdefault=-9.8;            /* Y Acceleration Slider Default Value */
+// function initialiseControlVariables()
+// {
+//     /* Labels */
+//     PosX="X";                  /* X Position Slider Label */
+//     PosY="Y";                  /* Y Position Slider Label */
+//     VelX="VX";                 /* X Velocity Slider Label */
+//     VelY="VY";                 /* Y Velocity Slider Label */
+//     AccY="AY";                 /* Y Acceleration Slider Label */
 
-    /* Slider Limits */
-    Xmin=leftB+myBallRadius;   /* X Position Slider Minimum Value */
-    Xmax=rightB-myBallRadius;  /* X Position Slider Maximum Value */
-    Ymin=bottomB+myBallRadius; /* Y Position Slider Minimum Value */
-    Ymax=topB-myBallRadius;    /* Y Position Slider Maximum Value */
-    VXmin=-1.0;                /* X Velocity Slider Minimum Value */
-    VXmax= 1.0;                /* X Velocity Slider Maximum Value */
-    VYmin=-1.0;                /* Y Velocity Slider Minimum Value */
-    VYmax= 1.0;                /* Y Velocity Slider Maximum Value */
-    AYmin=-15.0;               /* Y Acceleration Slider Maximum Value */
-    AYmax= 0.0;                /* Y Acceleration Slider Minimum Value */
+//     /* Default (initial) Values */
+//     Xdefault=myCenterX;        /* X Position Slider Default Value */
+//     Ydefault=myCenterY;        /* Y Position Slider Default Value */
+//     VXdefault=0.1;             /* X Velocity Slider Default Value */
+//     VYdefault=0.1;             /* Y Velocity Slider Default Value */
+//     AYdefault=-9.8;            /* Y Acceleration Slider Default Value */
 
-    /* Slider Steps */
-    Xstep=0.1;                 /* X Position Slider Step */
-    Ystep=0.1;                  /* Y Position Slider Step */
-    VXstep=0.1;                 /* X Velocity Slider Step */
-    VYstep=0.1;                 /* Y Velocity Slider Step */
-    AYstep=-0.1;               /* Y Acceleration Slider Step */
-}
+//     /* Slider Limits */
+//     Xmin=leftB+myBallRadius;   /* X Position Slider Minimum Value */
+//     Xmax=rightB-myBallRadius;  /* X Position Slider Maximum Value */
+//     Ymin=bottomB+myBallRadius; /* Y Position Slider Minimum Value */
+//     Ymax=topB-myBallRadius;    /* Y Position Slider Maximum Value */
+//     VXmin=-1.0;                /* X Velocity Slider Minimum Value */
+//     VXmax= 1.0;                /* X Velocity Slider Maximum Value */
+//     VYmin=-1.0;                /* Y Velocity Slider Minimum Value */
+//     VYmax= 1.0;                /* Y Velocity Slider Maximum Value */
+//     AYmin=-15.0;               /* Y Acceleration Slider Maximum Value */
+//     AYmax= 0.0;                /* Y Acceleration Slider Minimum Value */
+
+//     /* Slider Steps */
+//     Xstep=0.1;                 /* X Position Slider Step */
+//     Ystep=0.1;                  /* Y Position Slider Step */
+//     VXstep=0.1;                 /* X Velocity Slider Step */
+//     VYstep=0.1;                 /* Y Velocity Slider Step */
+//     AYstep=-0.1;               /* Y Acceleration Slider Step */
+// }
 
 function initialisePositions()
 {
@@ -262,69 +262,69 @@ function initialisePositions()
 
 /******************* Load Experiment objects code ***********************/
 
-var helpContent;
-function initialiseHelp()
-{
-    helpContent="";
-    helpContent = helpContent + "<h2>Bouncing Ball experiment help</h2>";
-    helpContent = helpContent + "<h3>About the experiment</h3>";
-    helpContent = helpContent + "<p>The experiment shws a bouncing ball constrained by left, right, top and bottom walls.</p>";
-    helpContent = helpContent + "<h3>Animation control</h3>";
-    helpContent = helpContent + "<p>The top line has animation controls. There are two states of the experiment.</p>";
-    helpContent = helpContent + "<h3>The setup stage</h3>";
-    helpContent = helpContent + "<p>The initial state is setup stage. In this stage, you can see a control window at the right. You have access to five sliders.</p>";
-    helpContent = helpContent + "<p>You can control the following:</p>";
-    helpContent = helpContent + "<ul>";
-    helpContent = helpContent + "<li>X&nbsp;&nbsp;:&nbsp;Controls the X position of the ball.</li>";
-    helpContent = helpContent + "<li>Y&nbsp;&nbsp;:&nbsp;Controls the Y position of the ball.</li>";
-    helpContent = helpContent + "<li>VX&nbsp;:&nbsp;Controls the X velocity of the ball.</li>";
-    helpContent = helpContent + "<li>VY&nbsp;:&nbsp;Controls the Y velocity of the ball.</li>";
-    helpContent = helpContent + "<li>AY&nbsp;:&nbsp;Controls the Y acceleration of the ball.</li>";
-    helpContent = helpContent + "</ul>";
-    helpContent = helpContent + "<p>You also have an additional text input to control the coefficient of restitution of the bottom floor.</p>";
-    helpContent = helpContent + "<p>Once you setup the experiment, you can enter the animation stage by clicking the start button</p>";
-    helpContent = helpContent + "<h3>The animation stage</h3>";
-    helpContent = helpContent + "<p>In the animation stage, the ball will bounce around obeyng the laws of physics.</p>";
-    helpContent = helpContent + "<p>The right hand panel now shows the values of the four experiment variables during animation.</p>";
-    helpContent = helpContent + "<ul>";
-    helpContent = helpContent + "<li>X&nbsp;&nbsp;:&nbsp;Shows the X position of the ball.</li>";
-    helpContent = helpContent + "<li>Y&nbsp;&nbsp;:&nbsp;Shows the Y position of the ball.</li>";
-    helpContent = helpContent + "<li>VX&nbsp;:&nbsp;Shows the X velocity of the ball.</li>";
-    helpContent = helpContent + "<li>VY&nbsp;:&nbsp;Shows the Y velocity of the ball.</li>";
-    helpContent = helpContent + "</ul>";
-    helpContent = helpContent + "<p>In addition you will also see two sliders showing potential and kinetic energy.</p>";
-    helpContent = helpContent + "<p>You can pause and resume the animation by using the pause/play nutton on the top line</p>";
-    helpContent = helpContent + "<p>You can slow down and speed up the animaion by uing the speed control buttons</p>";
-    helpContent = helpContent + "<h3>The drag and drop</h3>";
-    helpContent = helpContent + "<p>You can also position the ball by dragging and dropping it. You can only do this in the setup stage. This has been prevented in the animation stage.</p>";
-    helpContent = helpContent + "<h2>Happy Experimenting</h2>";
-    PIEupdateHelp(helpContent);
-}
+// var helpContent;
+// function initialiseHelp()
+// {
+//     helpContent="";
+//     helpContent = helpContent + "<h2>Bouncing Ball experiment help</h2>";
+//     helpContent = helpContent + "<h3>About the experiment</h3>";
+//     helpContent = helpContent + "<p>The experiment shws a bouncing ball constrained by left, right, top and bottom walls.</p>";
+//     helpContent = helpContent + "<h3>Animation control</h3>";
+//     helpContent = helpContent + "<p>The top line has animation controls. There are two states of the experiment.</p>";
+//     helpContent = helpContent + "<h3>The setup stage</h3>";
+//     helpContent = helpContent + "<p>The initial state is setup stage. In this stage, you can see a control window at the right. You have access to five sliders.</p>";
+//     helpContent = helpContent + "<p>You can control the following:</p>";
+//     helpContent = helpContent + "<ul>";
+//     helpContent = helpContent + "<li>X&nbsp;&nbsp;:&nbsp;Controls the X position of the ball.</li>";
+//     helpContent = helpContent + "<li>Y&nbsp;&nbsp;:&nbsp;Controls the Y position of the ball.</li>";
+//     helpContent = helpContent + "<li>VX&nbsp;:&nbsp;Controls the X velocity of the ball.</li>";
+//     helpContent = helpContent + "<li>VY&nbsp;:&nbsp;Controls the Y velocity of the ball.</li>";
+//     helpContent = helpContent + "<li>AY&nbsp;:&nbsp;Controls the Y acceleration of the ball.</li>";
+//     helpContent = helpContent + "</ul>";
+//     helpContent = helpContent + "<p>You also have an additional text input to control the coefficient of restitution of the bottom floor.</p>";
+//     helpContent = helpContent + "<p>Once you setup the experiment, you can enter the animation stage by clicking the start button</p>";
+//     helpContent = helpContent + "<h3>The animation stage</h3>";
+//     helpContent = helpContent + "<p>In the animation stage, the ball will bounce around obeyng the laws of physics.</p>";
+//     helpContent = helpContent + "<p>The right hand panel now shows the values of the four experiment variables during animation.</p>";
+//     helpContent = helpContent + "<ul>";
+//     helpContent = helpContent + "<li>X&nbsp;&nbsp;:&nbsp;Shows the X position of the ball.</li>";
+//     helpContent = helpContent + "<li>Y&nbsp;&nbsp;:&nbsp;Shows the Y position of the ball.</li>";
+//     helpContent = helpContent + "<li>VX&nbsp;:&nbsp;Shows the X velocity of the ball.</li>";
+//     helpContent = helpContent + "<li>VY&nbsp;:&nbsp;Shows the Y velocity of the ball.</li>";
+//     helpContent = helpContent + "</ul>";
+//     helpContent = helpContent + "<p>In addition you will also see two sliders showing potential and kinetic energy.</p>";
+//     helpContent = helpContent + "<p>You can pause and resume the animation by using the pause/play nutton on the top line</p>";
+//     helpContent = helpContent + "<p>You can slow down and speed up the animaion by uing the speed control buttons</p>";
+//     helpContent = helpContent + "<h3>The drag and drop</h3>";
+//     helpContent = helpContent + "<p>You can also position the ball by dragging and dropping it. You can only do this in the setup stage. This has been prevented in the animation stage.</p>";
+//     helpContent = helpContent + "<h2>Happy Experimenting</h2>";
+//     PIEupdateHelp(helpContent);
+// }
 
-var infoContent;
-function initialiseInfo()
-{
-    infoContent =  "";
-    infoContent = infoContent + "<h2>Bouncing Ball experiment concepts</h2>";
-    infoContent = infoContent + "<h3>About the experiment</h3>";
-    infoContent = infoContent + "<p>The experiment shws a bouncing ball constrained by left, right, top and bottom walls.</p>";
-    infoContent = infoContent + "<h3>Collision</h3>";
-    infoContent = infoContent + "<p>When an object collides with a surface, the direction of velocity normal to the surface is reversed.</p>";
-    infoContent = infoContent + "<p>At the time of impact, the ball is deformed because of the force of the wall. This deformation can be easily observed with a sponge ball. If you drop a ball of dough on the floor, it does not bounce, it is only deformed.</p>";
-    infoContent = infoContent + "<p>The harder balls are also deformed. But because of the hard nature of the meterial, the hard ball tries to regain it's shape. This attempt to reain the shape reverses the velocity by pushing aainst the wall.</p>";
-    infoContent = infoContent + "<p>When the ball collides with the left or the right wall, the velocity in the X direction reverses while the velocity in the Y direction reamains the same.</p>";
-    infoContent = infoContent + "<p>When the ball collides with the top or the bottom wall, the velocity in the Y direction reverses while the velocity in the Y direction reamains the same.</p>";
-    infoContent = infoContent + "<h3>The coefficient of restitution</h3>";
-    infoContent = infoContent + "<p>When the velocity reverses direction, it is not necessary that it's magnitude remains the same.</p>";
-    infoContent = infoContent + "<p>The ball may not retain it's original shape and texture. The cricket ball loses it's shine.</p>";
-    infoContent = infoContent + "<p>Some of the energy is lost because of the deformation of the ball. The energy loss means that the kinetic energy of the ball will be reduced after impact.</p>";
-    infoContent = infoContent + "<p>The coefficient of restitution specifies how much of the velocity will be retained after impact.</p>";
-    infoContent = infoContent + "<p>The coefficient of restitution does not affect te velocity in the direction parallel to the impact.</p>";
-    infoContent = infoContent + "<p>When the ball collides with the left or the right wall, the magnitude of the velocity in the X direction will reduce as per the coefficient of restitution. The magnitude and sign in Y direction remains the same.</p>";
-    infoContent = infoContent + "<p>When the ball collides with the top or the bottom wall, the magnitude of the velocity in the Y direction will reduce as per the coefficient of restitution. The magnitude and sign in X direction remains the same.</p>";
-    infoContent = infoContent + "<h2>Happy Experimenting</h2>";
-    PIEupdateInfo(infoContent);
-}
+// var infoContent;
+// function initialiseInfo()
+// {
+//     infoContent =  "";
+//     infoContent = infoContent + "<h2>Bouncing Ball experiment concepts</h2>";
+//     infoContent = infoContent + "<h3>About the experiment</h3>";
+//     infoContent = infoContent + "<p>The experiment shws a bouncing ball constrained by left, right, top and bottom walls.</p>";
+//     infoContent = infoContent + "<h3>Collision</h3>";
+//     infoContent = infoContent + "<p>When an object collides with a surface, the direction of velocity normal to the surface is reversed.</p>";
+//     infoContent = infoContent + "<p>At the time of impact, the ball is deformed because of the force of the wall. This deformation can be easily observed with a sponge ball. If you drop a ball of dough on the floor, it does not bounce, it is only deformed.</p>";
+//     infoContent = infoContent + "<p>The harder balls are also deformed. But because of the hard nature of the meterial, the hard ball tries to regain it's shape. This attempt to reain the shape reverses the velocity by pushing aainst the wall.</p>";
+//     infoContent = infoContent + "<p>When the ball collides with the left or the right wall, the velocity in the X direction reverses while the velocity in the Y direction reamains the same.</p>";
+//     infoContent = infoContent + "<p>When the ball collides with the top or the bottom wall, the velocity in the Y direction reverses while the velocity in the Y direction reamains the same.</p>";
+//     infoContent = infoContent + "<h3>The coefficient of restitution</h3>";
+//     infoContent = infoContent + "<p>When the velocity reverses direction, it is not necessary that it's magnitude remains the same.</p>";
+//     infoContent = infoContent + "<p>The ball may not retain it's original shape and texture. The cricket ball loses it's shine.</p>";
+//     infoContent = infoContent + "<p>Some of the energy is lost because of the deformation of the ball. The energy loss means that the kinetic energy of the ball will be reduced after impact.</p>";
+//     infoContent = infoContent + "<p>The coefficient of restitution specifies how much of the velocity will be retained after impact.</p>";
+//     infoContent = infoContent + "<p>The coefficient of restitution does not affect te velocity in the direction parallel to the impact.</p>";
+//     infoContent = infoContent + "<p>When the ball collides with the left or the right wall, the magnitude of the velocity in the X direction will reduce as per the coefficient of restitution. The magnitude and sign in Y direction remains the same.</p>";
+//     infoContent = infoContent + "<p>When the ball collides with the top or the bottom wall, the magnitude of the velocity in the Y direction will reduce as per the coefficient of restitution. The magnitude and sign in X direction remains the same.</p>";
+//     infoContent = infoContent + "<h2>Happy Experimenting</h2>";
+//     PIEupdateInfo(infoContent);
+// }
 
 function initialiseScene()
 {
@@ -340,22 +340,22 @@ function initialiseScene()
     myBallZ    = -2.0;
 }
 
-function initialiseOtherVariables()
-{
-    /* Initialise variables */
-    myBallRadius = mySceneW/30.0;
-    wallThickness = 0.20;
+// function initialiseOtherVariables()
+// {
+//     /* Initialise variables */
+//     myBallRadius = mySceneW/30.0;
+//     wallThickness = 0.20;
 
-    /* Gravity */
-    gravityX = 0.0;
-    gravityY = -9.8;
+//     /* Gravity */
+//     gravityX = 0.0;
+//     gravityY = -9.8;
 
-    /* Barriers */
-    leftB=mySceneTLX;
-    rightB=mySceneBRX;
-    bottomB=mySceneBRY;
-    topB=mySceneTLY;
-}
+//     /* Barriers */
+//     leftB=mySceneTLX;
+//     rightB=mySceneBRX;
+//     bottomB=mySceneBRY;
+//     topB=mySceneTLY;
+// }
 
 function showNext(){
     var geometry = new THREE.Geometry();
@@ -413,17 +413,17 @@ var texture;
 
     PIEsetExperimentTitle("Build circuit");
     PIEsetDeveloperName("Vinayak Agarwal");
-    PIEhideControlElement();
+    // PIEhideControlElement();
 
     /* initialise help and info content */
-    initialiseHelp();
-    initialiseInfo();
+    // initialiseHelp();
+    // initialiseInfo();
 
     /* initialise Scene */
     initialiseScene();
 
     /* initialise Other Variables */
-    initialiseOtherVariables();
+    // initialiseOtherVariables();
 
     initialisePositions();
 
@@ -483,7 +483,7 @@ var texture;
     myBack.position.set(myCenterX, myCenterY, backB);
     PIEaddElement(myBack);
 
-
+    PIEaddDisplayText('sd','sdsfs');
     
     // if (a.length > 0) {
     //     console.log(a[0].object.position);
@@ -516,7 +516,7 @@ var texture;
 function resetExperiment()
 {
     /* initialise Other Variables */
-    initialiseOtherVariables();
+    // initialiseOtherVariables();
 
     /* Initialise Ball variables */
     // myBallX      = myCenterX;
@@ -632,6 +632,41 @@ function generateHolder(position){
     PIEaddElement(holder);
 }
 
+function showSolution(){
+        for(var i = 1; i < 7; i++){
+            setPosition(resistance[i].defaultPosition, resistance[i]);
+        }
+    switch(currentLevel){
+        case 1:
+            setPosition(posHolder[1], resistance[3]);
+            setPosition(posHolder[2], resistance[4]);
+            break;
+        case 2:
+            setPosition(posHolder[1], resistance[5]);
+            setPosition(posHolder[2], resistance[6]);
+            setPosition(posHolder[3], resistance[4]);
+            break;
+        case 3:
+            setPosition(posHolder[1], resistance[2]);
+            setPosition(posHolder[2], resistance[3]);
+            setPosition(posHolder[4], resistance[4]);
+            setPosition(posHolder[5], resistance[1]);
+            break;
+        case 4:
+            setPosition(posHolder[6], resistance[2]);
+            setPosition(posHolder[7], resistance[3]);
+            setPosition(posHolder[8], resistance[1]);
+            setPosition(posHolder[3], resistance[5]);
+            break;
+        case 5:
+            setPosition(posHolder[6], resistance[2]);
+            setPosition(posHolder[7], resistance[5]);
+            setPosition(posHolder[8], resistance[1]);
+            setPosition(posHolder[4], resistance[3]);
+            setPosition(posHolder[5], resistance[4]);
+            break;
+    }
+}
 function calculateResistance(){
     var value;
     var placedResistors = [];
@@ -729,6 +764,7 @@ function PIEmouseUp(b) {
     b.defaultPrevented = true;
     if (PIEselectedDrag != null) {
         checkResistorPosition(PIEselectedDrag);
+        showSolution();
         calculateResistance();
         PIEdefaultDragEnd(PIEselectedDrag);
         PIEselectedDrag = null
