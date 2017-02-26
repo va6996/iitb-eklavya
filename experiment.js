@@ -29,11 +29,14 @@ var myResistanceZ;
 var posHolder;
 var posR;
 var levelPositions;
+var levelAnswers;
 var currentLevel;
 var resistanceValues;
 var answers;
 var levelButton;
 var placeholders;
+var colorBands;
+var mySolution;
 /* Vinayak */
 
 var wire;
@@ -45,6 +48,7 @@ function initialise()
     wireWidth = 30;
     wireHeight = 15;
     currentLevel = 5;
+    mySolution = "";
 
     posR = [];
     posHolder = [];
@@ -52,6 +56,8 @@ function initialise()
     levelPositions = [];
     levelButton = [];
     placeholders = [];
+    colorBands = [];
+    levelAnswers = [];
 
     posHolder[1] = new THREE.Vector3(myCenterX - 5, myCenterY, 0);
     posHolder[2] = new THREE.Vector3(myCenterX + 5, myCenterY, 0);
@@ -69,11 +75,24 @@ function initialise()
     posR[5] = new THREE.Vector3(myCenterX, myCenterY + wireHeight * 2 - 2, 0);
     posR[6] = new THREE.Vector3(myCenterX + 7, myCenterY + wireHeight * 2 - 2, 0);
 
+    colorBands[1] = [0x000000, 0xff0000, 0x000000, 0x00ff00];
+    colorBands[2] = [0x000000, 0xa20000, 0x000000, 0x0000ff];
+    colorBands[3] = [0x000000, 0x811004, 0x000000, 0xff0000];
+    colorBands[4] = [0x000000, 0x811004, 0x811004, 0x811004];
+    colorBands[5] = [0x0000ff, 0x000000, 0xFFDF00, 0xFFDF00];
+    colorBands[6] = [0x000000, 0xffff00, 0x811004, 0x811004];
+
     levelPositions[1] = [1, 2];
     levelPositions[2] = [1, 2, 3];
     levelPositions[3] = [1, 2, 4, 5];
     levelPositions[4] = [6, 7, 8, 3];
     levelPositions[5] = [6, 7, 8, 4, 5];
+
+    levelAnswers[1] = [3, 4];
+    levelAnswers[2] = [5, 6, 4];
+    levelAnswers[3] = [2, 3, 4, 1];
+    levelAnswers[4] = [2, 3, 1, 5];
+    levelAnswers[5] = [2, 5, 1, 3, 4];
 
     resistanceValues = [0, 2, 3, 1, 10, 6, 4];
 
@@ -155,20 +174,6 @@ function initialiseScene()
     mySceneH   = (mySceneTLY - mySceneBRY);
     myCenterX  = (mySceneTLX + mySceneBRX) / 2.0;
     myCenterY  = (mySceneTLY + mySceneBRY) / 2.0;
-    myBallZ    = -2.0;
-}
-
-
-function showNext(){
-    var geometry = new THREE.Geometry();
-    geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth, myCenterY + wireHeight / 2 + 5, 0));
-    geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth + 5, myCenterY + wireHeight / 2, 0));
-    geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth, myCenterY + wireHeight / 2 - 5, 0));
-    geometry.faces.push(new THREE.Face3(0, 1, 2));
-    var material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
-    var next= new THREE.Mesh( geometry, material );
-    PIEaddElement(next);
-
 }
 
 function loadExperimentElements()
@@ -189,7 +194,7 @@ var texture;
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth, myCenterY, 0));
     geometry.vertices.push(new THREE.Vector3(myCenterX - wireWidth, myCenterY, 0));
     geometry.vertices.push(new THREE.Vector3(myCenterX - wireWidth, myCenterY + wireHeight, 0));
-    material = new THREE.LineBasicMaterial({color:0xffffff, linewidth:3 });
+    material = new THREE.LineBasicMaterial({color:0xC0C0C0, linewidth:3 });
     wire = new THREE.Line( geometry, material );
     PIEaddElement(wire);
 
@@ -198,13 +203,15 @@ var texture;
     geometry.vertices.push(new THREE.Vector3(myCenterX - 15, myCenterY + 7, 0));
     geometry.vertices.push(new THREE.Vector3(myCenterX + 15, myCenterY + 7, 0));
     geometry.vertices.push(new THREE.Vector3(myCenterX + 15, myCenterY, 0));
-    material = new THREE.LineBasicMaterial({color:0xffffff, linewidth:3 });
+    material = new THREE.LineBasicMaterial({color:0xC0C0C0, linewidth:3 });
     wireExtra = new THREE.Line( geometry, material );
 
-    geometry = new THREE.BoxBufferGeometry( 22, 8.5, 0 );
+ 
+
+    geometry = new THREE.BoxBufferGeometry( 22 , 10, 0 );
     material = new THREE.MeshBasicMaterial( {color: 0xaa0000} );
     resistorBox = new THREE.Mesh( geometry, material );
-    resistorBox.position.set(myCenterX, myCenterY + 2 * wireHeight, 0);
+    resistorBox.position.set(myCenterX, myCenterY + wireHeight * 2, 0);
     PIEaddElement(resistorBox);
 
     geometry = new THREE.Geometry();
@@ -212,7 +219,7 @@ var texture;
     geometry.vertices.push(new THREE.Vector3(5, 0, 0));
     geometry.vertices.push(new THREE.Vector3(0, -5, 0));
     geometry.faces.push(new THREE.Face3(0, 1, 2));
-    material = new THREE.MeshBasicMaterial( {color: 0xFFFFFF, side:THREE.DoubleSide });
+    material = new THREE.MeshBasicMaterial( {color: 0x30ff3a, side:THREE.DoubleSide });
     var next= new THREE.Mesh( geometry, material );
     next.position.set(myCenterX + wireWidth + 10, myCenterY + wireHeight / 2, 0);
     next.name = 'next';
@@ -223,7 +230,7 @@ var texture;
     geometry.vertices.push(new THREE.Vector3(-5, 0, 0));
     geometry.vertices.push(new THREE.Vector3(0, -5, 0));
     geometry.faces.push(new THREE.Face3(0, 1, 2));
-    material = new THREE.MeshBasicMaterial( {color: 0xFFFFFF, side:THREE.DoubleSide });
+    material = new THREE.MeshBasicMaterial( {color: 0x30ff3a, side:THREE.DoubleSide });
     var previous = new THREE.Mesh( geometry, material );
     previous.position.set(myCenterX - wireWidth - 10, myCenterY + wireHeight / 2, 0);
     previous.name = 'previous';
@@ -242,25 +249,38 @@ var texture;
     myBack.position.set(myCenterX, myCenterY, backB);
     PIEaddElement(myBack);
 
-    //PIEaddDisplayText('sd','sdsfs');
+    var center = document.createElement('center');
+    var text = document.createElement('div');
+    text.id = 'question';
+    text.style.position = 'absolute';
+    text.style.top = PIEcanvasH * .65 + 'px';
+    text.style.fontSize = '16px';
+    text.style.fontFamily = 'Arial';
+    text.style.width = '100%';
+    center.appendChild(text);
+    document.body.appendChild(center);
+    
+    var text = document.createElement('div');
+    text.id = 'answer';
+    text.style.position = 'absolute';
+    text.style.top = PIEcanvasH * .7 + 'px';
+    text.style.fontSize = '20px';
+    text.style.fontFamily = 'Arial';
+    text.style.width = '100%';
+    center.appendChild(text);
+    document.body.appendChild(center);
     
     resetExperiment();
 
     PIEsetAreaOfInterest(mySceneTLX,mySceneTLY,mySceneBRX,mySceneBRY);
     PIEstartAnimation();
+    // showSolution();
 }
 
 function resetExperiment()
 {
-    /* initialise Other Variables */
-    // initialiseOtherVariables();
-
-    /* Initialise Ball variables */
-        // PIEaddElement(next);
-    // PIEaddElement(previous);
     currentLevel = 2;
     updateElements();
-
 }
 
 function updateExperimentElements(t, dt){
@@ -291,51 +311,70 @@ function updateElements()
     }
 
     for(var i = 1; i < 7; i++){
-        setPosition(resistance[i].defaultPosition, resistance[i]);
+        setPosition(new THREE.Vector3(0,0,0), resistance[i]);
     }
+
+    var html = document.getElementById('question');
+    html.innerHTML = "Place the resistances in the resistor placeholders such that the effective resistance is " + answers[currentLevel] + "Ω.";
+
+    html = document.getElementById('answer');
+    html.innerHTML = "Your Answer: " + mySolution;
 }
 
 
-
 function checkResistorPosition(resistor){
-    myResistanceX = resistor.defaultPosition.x;
-    myResistanceY = resistor.defaultPosition.y;
+    var x = resistor.defaultPosition.x + resistor.position.x;
+    var y = resistor.defaultPosition.y + resistor.position.y;
+    myResistanceX = 0;
+    myResistanceY = 0;
 
     for (var j in levelPositions[currentLevel]){
         var i = levelPositions[currentLevel][j];
-        if (resistor.position.x < (posHolder[i].x + 2.5) && resistor.position.x > (posHolder[i].x - 2.5) && 
-            resistor.position.y < (posHolder[i].y + 1.25) && resistor.position.y > (posHolder[i].y - 1.25)){ 
-            myResistanceX = posHolder[i].x; 
-            myResistanceY = posHolder[i].y;
+        if (x < (posHolder[i].x + 2.5) && x > (posHolder[i].x - 2.5) && 
+            y < (posHolder[i].y + 1.25) && y > (posHolder[i].y - 1.25)){ 
+            myResistanceX = posHolder[i].x - resistor.defaultPosition.x; 
+            myResistanceY = posHolder[i].y - resistor.defaultPosition.y;
             break;
         }
     }
 
     for (var j in resistance){
-        if (resistance[j].position.x == myResistanceX && resistance[j].position.y == myResistanceY){
-            myResistanceX = resistor.defaultPosition.x;
-            myResistanceY = resistor.defaultPosition.y;
+        var xx = resistance[j].position.x + resistance[j].defaultPosition.x;
+        var yy = resistance[j].position.y + resistance[j].defaultPosition.y;
+        if (resistor.value != resistance[j].value && Math.abs(xx - x) < 1 && Math.abs(yy - y) < 1){
+            myResistanceX = 0;
+            myResistanceY = 0;
         }
     }
 
     resistor.position.set(myResistanceX, myResistanceY, 0);
-}
+ }
 
 function setPosition( position, object){
     object.position.set(position.x, position.y, position.z);
 }
 
 function generateResistance(i){
+    var group = new THREE.Group();
     geometry = new THREE.CylinderBufferGeometry(1.25,1.25, 5, 32, 32, false);
+    var band = new THREE.CylinderBufferGeometry(1.26,1.26, .3, 32, 32, false);
     material = new THREE.MeshBasicMaterial( {color: 0x8b1904} );
     var resistance = new THREE.Mesh( geometry, material );
     setPosition(posR[i], resistance);
     resistance.rotateZ(1.57);
-    resistance.defaultPosition = posR[i];
-    resistance.value = resistanceValues[i];
-    PIEaddElement(resistance);
-    PIEdragElement(resistance);
-    return resistance;
+    group.add(resistance);
+    for (var j = 0; j < 4; j++){
+        var material1 = new THREE.MeshBasicMaterial( {color: colorBands[i][j]} );
+        var resistance1 = new THREE.Mesh( band, material1 );
+        setPosition(new THREE.Vector3(posR[i].x - 1.5 + j, posR[i].y, 0), resistance1);
+        resistance1.rotateZ(1.57);
+        group.add(resistance1);
+    }
+    group.defaultPosition = posR[i];
+    group.value = resistanceValues[i];
+    PIEaddElement(group);
+    PIEdragElement(group);
+    return group;
 }
 
 function generateHolder(i){
@@ -348,37 +387,13 @@ function generateHolder(i){
 
 function showSolution(){
     for(var i = 1; i < 7; i++){
-        setPosition(resistance[i].defaultPosition, resistance[i]);
+        setPosition(new THREE.Vector3(0,0,0), resistance[i]);
     }
-    switch(currentLevel){
-        case 1:
-            setPosition(posHolder[1], resistance[3]);
-            setPosition(posHolder[2], resistance[4]);
-            break;
-        case 2:
-            setPosition(posHolder[1], resistance[5]);
-            setPosition(posHolder[2], resistance[6]);
-            setPosition(posHolder[3], resistance[4]);
-            break;
-        case 3:
-            setPosition(posHolder[1], resistance[2]);
-            setPosition(posHolder[2], resistance[3]);
-            setPosition(posHolder[4], resistance[4]);
-            setPosition(posHolder[5], resistance[1]);
-            break;
-        case 4:
-            setPosition(posHolder[6], resistance[2]);
-            setPosition(posHolder[7], resistance[3]);
-            setPosition(posHolder[8], resistance[1]);
-            setPosition(posHolder[3], resistance[5]);
-            break;
-        case 5:
-            setPosition(posHolder[6], resistance[2]);
-            setPosition(posHolder[7], resistance[5]);
-            setPosition(posHolder[8], resistance[1]);
-            setPosition(posHolder[4], resistance[3]);
-            setPosition(posHolder[5], resistance[4]);
-            break;
+    for (var j in levelPositions[currentLevel]){
+        var i = levelAnswers[currentLevel][j];
+        var k = levelPositions[currentLevel][j];
+        resistance[i].position.x = posHolder[k].x - resistance[i].defaultPosition.x;
+        resistance[i].position.y = posHolder[k].y - resistance[i].defaultPosition.y;
     }
 }
 
@@ -393,10 +408,12 @@ function calculateResistance(){
         var raycaster = new THREE.Raycaster();
         var location = new THREE.Vector2(x, y);
         raycaster.setFromCamera(location, PIEcamera);
-        var a = raycaster.intersectObjects(PIEscene.children);
-        if (a[0].object.geometry.type != 'CylinderBufferGeometry')
+        var a = raycaster.intersectObjects(PIEscene.children, true);
+        if (a[0].object.parent.type != 'Group'){
+            mySolution = "";
             return;
-        placedResistors[j] = a[0].object.value;
+        }
+        placedResistors[j] = a[0].object.parent.value;
     }
     switch(currentLevel){
         case 1:
@@ -424,7 +441,7 @@ function calculateResistance(){
             value = 1/value + 1/val;
             value = 1/value;
     }
-    console.log(value);
+    mySolution = value + "Ω";
 }
 
 function PIEmouseDown(b) {
@@ -432,9 +449,10 @@ function PIEmouseDown(b) {
     b.defaultPrevented = true;
     PIEselectedDrag = null;
     PIEraycaster.setFromCamera(PIEmouseP, PIEcamera);
-    a = PIEraycaster.intersectObjects(PIEdragElements);
+    a = PIEraycaster.intersectObjects(PIEdragElements, true);
     if (a.length > 0) {
-        PIEselectedDrag = a[0].object;
+        PIEselectedDrag = a[0].object.parent;
+        PIEselectedDrag.position.z = 2;
         if (PIEraycaster.ray.intersectPlane(PIEdragPlane, PIEdragIntersect)) {
             PIEdragOffset.copy(PIEdragIntersect).sub(PIEselectedDrag.position)
         }
@@ -451,6 +469,7 @@ function PIEmouseDown(b) {
         }
         updateElements();
     }
+    a = PIEraycaster.intersectObjects(PIEscene.children);
 }
 
 function PIEmouseUp(b) {
@@ -458,11 +477,40 @@ function PIEmouseUp(b) {
     b.defaultPrevented = true;
     if (PIEselectedDrag != null) {
         checkResistorPosition(PIEselectedDrag);
+        PIEselectedDrag.position.z = 0;
         calculateResistance();
         PIEdefaultDragEnd(PIEselectedDrag);
         PIEselectedDrag = null
     }
-    PIEscreenElem.style.cursor = "auto"
-    
 };
+
+function PIEmouseMove(b) {
+    var a;
+    b.defaultPrevented = true;
+    PIEmouseP.x = (b.clientX / PIEcanvasW) * 2 - 1;
+    PIEmouseP.y = -(b.clientY / PIEcanvasH) * 2 + 1;
+    PIEraycaster.setFromCamera(PIEmouseP, PIEcamera);
+    if (PIEselectedDrag != null) {
+        PIEraycaster.ray.intersectPlane(PIEdragPlane, PIEdragIntersect);
+        PIEdefaultDrag(PIEselectedDrag, PIEdragIntersect.sub(PIEdragOffset))
+    } else {
+        a = PIEraycaster.intersectObjects(PIEdragElements, true);
+        if (a.length > 0) {
+            PIEdragPlane.setFromNormalAndCoplanarPoint(PIEcamera.getWorldDirection(PIEdragPlane.normal), a[0].object.position);
+            if (PIEselectedHover != a[0].object) {
+                PIEdefaultHoverOFF(PIEselectedHover);
+                PIEselectedHover = a[0].object;
+                PIEdefaultHoverON(PIEselectedHover)
+            }
+            PIEscreenElem.style.cursor = "pointer"
+        } else {
+            if (PIEselectedHover != null) {
+                PIEdefaultHoverOFF(PIEselectedHover);
+                PIEselectedHover = null;
+                PIEscreenElem.style.cursor = "auto"
+            }
+        }
+    }
+}
+
 /******************* Update (animation changes) code ***********************/
