@@ -204,7 +204,7 @@ var texture;
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth + 10, myCenterY - 2 * wireHeight, 0));
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth + 13, myCenterY - 2 * wireHeight - 5, 0));
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth + 30, myCenterY - 2 * wireHeight + 5, 0));
-    material = new THREE.LineBasicMaterial({color:0xC0C0C0, linewidth:3 });
+    material = new THREE.LineBasicMaterial({color:0x00ff00, linewidth:5 });
     tick = new THREE.Line( geometry, material );
 
     geometry = new THREE.Geometry();
@@ -213,7 +213,7 @@ var texture;
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth + 20, myCenterY - 2 * wireHeight, 0));
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth + 25, myCenterY - 2 * wireHeight + 5, 0));
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth + 15, myCenterY - 2 * wireHeight - 5, 0));
-    material = new THREE.LineBasicMaterial({color:0xC0C0C0, linewidth:3 });
+    material = new THREE.LineBasicMaterial({color:0xff0000, linewidth:5 });
     cross = new THREE.Line( geometry, material );
 
     geometry = new THREE.Geometry();
@@ -378,8 +378,8 @@ function checkResistorPosition(resistor){
             myResistanceY = 0;
         }
     }
-
     resistor.position.set(myResistanceX, myResistanceY, 0);
+    setTimeout(calculateResistance,100);
  }
 
 function setPosition( position, object){
@@ -528,7 +528,6 @@ function PIEmouseUp(b) {
     if (PIEselectedDrag != null) {
         checkResistorPosition(PIEselectedDrag);
         PIEselectedDrag.position.z = 0;
-        calculateResistance();
         PIEdefaultDragEnd(PIEselectedDrag);
         PIEselectedDrag = null
     }
