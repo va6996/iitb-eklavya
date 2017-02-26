@@ -92,7 +92,7 @@ function initialise()
 
     levelAnswers[1] = [3, 4];
     levelAnswers[2] = [5, 6, 4];
-    levelAnswers[3] = [2, 3, 4, 1];
+    levelAnswers[3] = [2, 1, 3, 6];
     levelAnswers[4] = [2, 3, 1, 5];
     levelAnswers[5] = [2, 5, 1, 3, 4];
 
@@ -326,6 +326,7 @@ function updateElements()
         PIEaddElement(placeholders[i]);
     }
 
+    mySolution = "";
     PIEscene.remove(tick);
     PIEscene.remove(cross);
     PIEaddElement(wireExtra);
@@ -480,10 +481,19 @@ function calculateResistance(){
     mySolution = value.toFixed(2) + "Ω";
     console.log(mySolution);
     html.innerHTML = "Your Answer: " + mySolution;
-    if(value == answers[currentLevel])
+    if(value == answers[currentLevel]){
         PIEaddElement(tick);
+        setTimeout(levelUp, 1000);
+    }
     else
         PIEaddElement(cross);
+}
+
+function levelUp(){
+    if (currentLevel < 5){
+        currentLevel++;
+        updateElements();
+    }
 }
 
 function PIEmouseDown(b) {
