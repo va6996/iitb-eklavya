@@ -101,69 +101,45 @@ function initialise()
     answers = [0, 11, 5, 2.5, 3, 5.5];
 }
 
-// var helpContent;
-// function initialiseHelp()
-// {
-//     helpContent="";
-//     helpContent = helpContent + "<h2>Bouncing Ball experiment help</h2>";
-//     helpContent = helpContent + "<h3>About the experiment</h3>";
-//     helpContent = helpContent + "<p>The experiment shws a bouncing ball constrained by left, right, top and bottom walls.</p>";
-//     helpContent = helpContent + "<h3>Animation control</h3>";
-//     helpContent = helpContent + "<p>The top line has animation controls. There are two states of the experiment.</p>";
-//     helpContent = helpContent + "<h3>The setup stage</h3>";
-//     helpContent = helpContent + "<p>The initial state is setup stage. In this stage, you can see a control window at the right. You have access to five sliders.</p>";
-//     helpContent = helpContent + "<p>You can control the following:</p>";
-//     helpContent = helpContent + "<ul>";
-//     helpContent = helpContent + "<li>X&nbsp;&nbsp;:&nbsp;Controls the X position of the ball.</li>";
-//     helpContent = helpContent + "<li>Y&nbsp;&nbsp;:&nbsp;Controls the Y position of the ball.</li>";
-//     helpContent = helpContent + "<li>VX&nbsp;:&nbsp;Controls the X velocity of the ball.</li>";
-//     helpContent = helpContent + "<li>VY&nbsp;:&nbsp;Controls the Y velocity of the ball.</li>";
-//     helpContent = helpContent + "<li>AY&nbsp;:&nbsp;Controls the Y acceleration of the ball.</li>";
-//     helpContent = helpContent + "</ul>";
-//     helpContent = helpContent + "<p>You also have an additional text input to control the coefficient of restitution of the bottom floor.</p>";
-//     helpContent = helpContent + "<p>Once you setup the experiment, you can enter the animation stage by clicking the start button</p>";
-//     helpContent = helpContent + "<h3>The animation stage</h3>";
-//     helpContent = helpContent + "<p>In the animation stage, the ball will bounce around obeyng the laws of physics.</p>";
-//     helpContent = helpContent + "<p>The right hand panel now shows the values of the four experiment variables during animation.</p>";
-//     helpContent = helpContent + "<ul>";
-//     helpContent = helpContent + "<li>X&nbsp;&nbsp;:&nbsp;Shows the X position of the ball.</li>";
-//     helpContent = helpContent + "<li>Y&nbsp;&nbsp;:&nbsp;Shows the Y position of the ball.</li>";
-//     helpContent = helpContent + "<li>VX&nbsp;:&nbsp;Shows the X velocity of the ball.</li>";
-//     helpContent = helpContent + "<li>VY&nbsp;:&nbsp;Shows the Y velocity of the ball.</li>";
-//     helpContent = helpContent + "</ul>";
-//     helpContent = helpContent + "<p>In addition you will also see two sliders showing potential and kinetic energy.</p>";
-//     helpContent = helpContent + "<p>You can pause and resume the animation by using the pause/play nutton on the top line</p>";
-//     helpContent = helpContent + "<p>You can slow down and speed up the animaion by uing the speed control buttons</p>";
-//     helpContent = helpContent + "<h3>The drag and drop</h3>";
-//     helpContent = helpContent + "<p>You can also position the ball by dragging and dropping it. You can only do this in the setup stage. This has been prevented in the animation stage.</p>";
-//     helpContent = helpContent + "<h2>Happy Experimenting</h2>";
-//     PIEupdateHelp(helpContent);
-// }
+var helpContent;
+function initialiseHelp()
+{
+    helpContent="";
+    helpContent = helpContent + "<h2>Build Circuit help</h2>";
+    helpContent = helpContent + "<h3>About the experiment</h3>";
+    helpContent = helpContent + "<p>The experiment shows how effective resistance changes when connecting the same set of resistances in different combinations of series and parallel.</p>";
+    helpContent = helpContent + "<h3>Levels</h3>";
+    helpContent = helpContent + "<p>There are 5 levels with increasing difficulties. You start at level 1 and solve your way to level 5.</p>";
+    helpContent = helpContent + "<h3>Question</h3>";
+    helpContent = helpContent + "<p>The question is displayed below the circuit. Answer accordingly.</p>";
+    helpContent = helpContent + "<h3>Building the circuit</h3>";
+    helpContent = helpContent + "<p>The given set of resistances can be easily dragged and dropeed into the placeholders of their choice. If a resistance is dropped midway, it return back to its initial position. If a resistance is dropped on an already placed resistance, the newly dropped resistance is put back in its original place.</p>";
+    helpContent = helpContent + "<h3>Display resulting resistance</h3>";
+    helpContent = helpContent + "<p>The <b>Your Answer:</b> is updated when all the resistances are placed on the placehodlers. Once a circuit is broken The answer will become empty.</p>";
+    helpContent = helpContent + "<p>If your answer is correct, a green tick is display and you are automatically taken to the next level. However, if your answer is incorrect, a red cross is shown. You can try to solve the question again.</p>";
+    helpContent = helpContent + "<h3>Self Promotion</h3>";
+    helpContent = helpContent + "<p>If you want, you can change the levels as per your wish. To go a level up, press the triangle on the right. To goto a aprevious level, press the triangle on the left. The level buttons are automatically hidden once you reach the minimum or maximum level.</p>";
+    helpContent = helpContent + "<h3>Show Solution</h3>";
+    helpContent = helpContent + "<p>If you want, you can change give up on a level and see the solution by clicking the show button. The resistances are placed on their respective correct positions. The level however, isn't automatically changed automatically this time.</p>";
+    PIEupdateHelp(helpContent);
+}
 
-// var infoContent;
-// function initialiseInfo()
-// {
-//     infoContent =  "";
-//     infoContent = infoContent + "<h2>Bouncing Ball experiment concepts</h2>";
-//     infoContent = infoContent + "<h3>About the experiment</h3>";
-//     infoContent = infoContent + "<p>The experiment shws a bouncing ball constrained by left, right, top and bottom walls.</p>";
-//     infoContent = infoContent + "<h3>Collision</h3>";
-//     infoContent = infoContent + "<p>When an object collides with a surface, the direction of velocity normal to the surface is reversed.</p>";
-//     infoContent = infoContent + "<p>At the time of impact, the ball is deformed because of the force of the wall. This deformation can be easily observed with a sponge ball. If you drop a ball of dough on the floor, it does not bounce, it is only deformed.</p>";
-//     infoContent = infoContent + "<p>The harder balls are also deformed. But because of the hard nature of the meterial, the hard ball tries to regain it's shape. This attempt to reain the shape reverses the velocity by pushing aainst the wall.</p>";
-//     infoContent = infoContent + "<p>When the ball collides with the left or the right wall, the velocity in the X direction reverses while the velocity in the Y direction reamains the same.</p>";
-//     infoContent = infoContent + "<p>When the ball collides with the top or the bottom wall, the velocity in the Y direction reverses while the velocity in the Y direction reamains the same.</p>";
-//     infoContent = infoContent + "<h3>The coefficient of restitution</h3>";
-//     infoContent = infoContent + "<p>When the velocity reverses direction, it is not necessary that it's magnitude remains the same.</p>";
-//     infoContent = infoContent + "<p>The ball may not retain it's original shape and texture. The cricket ball loses it's shine.</p>";
-//     infoContent = infoContent + "<p>Some of the energy is lost because of the deformation of the ball. The energy loss means that the kinetic energy of the ball will be reduced after impact.</p>";
-//     infoContent = infoContent + "<p>The coefficient of restitution specifies how much of the velocity will be retained after impact.</p>";
-//     infoContent = infoContent + "<p>The coefficient of restitution does not affect te velocity in the direction parallel to the impact.</p>";
-//     infoContent = infoContent + "<p>When the ball collides with the left or the right wall, the magnitude of the velocity in the X direction will reduce as per the coefficient of restitution. The magnitude and sign in Y direction remains the same.</p>";
-//     infoContent = infoContent + "<p>When the ball collides with the top or the bottom wall, the magnitude of the velocity in the Y direction will reduce as per the coefficient of restitution. The magnitude and sign in X direction remains the same.</p>";
-//     infoContent = infoContent + "<h2>Happy Experimenting</h2>";
-//     PIEupdateInfo(infoContent);
-// }
+var infoContent;
+function initialiseInfo()
+{
+    infoContent =  "";
+    infoContent = infoContent + "<h2>Build Circuit</h2>";
+    infoContent = infoContent + "<h3>About the experiment</h3>";
+    infoContent = infoContent + "<p>The experiment shows how effective resistance changes when connecting the same set of resistances in different combinations of series and parallel.</p>";
+    infoContent = infoContent + "<h3>Series Resistance</h3>";
+    infoContent = infoContent + "<p>When 2 or more resistances are connected in series, the effective resistance is the arithmetic sum of their resistances.<br>Suppose we have 2 resistances R1 and R2 connected in series, then the net effective resistance would be:<br><center>R = R1 + R2</center></p>";
+    infoContent = infoContent + "<h3>Parallel Resistance</h3>";
+    infoContent = infoContent + "<p>When 2 or more resistances are connected in parallel, the inverse of the effective resistance is the arithmetic sum of inverse of their resistances.<br>Suppose we have 2 resistances R1 and R2 connected in parallel, then the net effective resistance would be:<br><center>1/R = 1/R1 + 1/R2</center></p>";
+    infoContent = infoContent + "<h3>Mixed Resistance</h3>";
+    infoContent = infoContent + "<p>When resistances are connected both in serial and parallel, then the net effective resistance is calculated by first calculating the resistances across smallest set of 2 points, then assuming the effective resistance as 1 and then moving out subsequently.</p>";
+    infoContent = infoContent + "<h2><center>Happy Experimenting!</center></h2>";
+    PIEupdateInfo(infoContent);
+}
 
 function initialiseScene()
 {
@@ -190,6 +166,8 @@ var texture;
     
     initialiseScene();
     initialise();
+    initialiseInfo();
+    initialiseHelp();
 
     geometry = new THREE.Geometry();
     geometry.vertices.push(new THREE.Vector3(myCenterX + wireWidth, myCenterY + wireHeight, 0));
@@ -307,7 +285,7 @@ var texture;
 
 function resetExperiment()
 {
-    currentLevel = 2;
+    currentLevel = 1;
     mySolution = "";
     updateElements();
 }
@@ -441,9 +419,17 @@ function calculateResistance(){
         var y = pos.y / mySceneH * 2 - 1;
         var raycaster = new THREE.Raycaster();
         var location = new THREE.Vector2(x, y);
+        // geometry = new THREE.Geometry();
+        // geometry.vertices.push(new THREE.Vector3(pos.x, pos.y, 0));
+        // geometry.vertices.push(new THREE.Vector3(pos.x + 10, pos.y + 10, 0));
+        // material = new THREE.LineBasicMaterial();
+        // var g = new THREE.Line(geometry, material);
+        // PIEaddElement(g);
+        // console.log(location);
         raycaster.setFromCamera(location, PIEcamera);
         var a = raycaster.intersectObjects(PIEscene.children, true);
-        if (a[0].object.parent.type != 'Group'){console.log('sdsf');
+        console.log(a[0].object);
+        if (a[0].object.parent.type != 'Group'){//console.log(a[0].object.parent);
             PIEscene.remove(tick);
             PIEscene.remove(cross);
             mySolution = "";
