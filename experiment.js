@@ -121,6 +121,8 @@ function initialiseHelp()
     helpContent = helpContent + "<p>If you want, you can change the levels as per your wish. To go a level up, press the triangle on the right. To goto a aprevious level, press the triangle on the left. The level buttons are automatically hidden once you reach the minimum or maximum level.</p>";
     helpContent = helpContent + "<h3>Show Solution</h3>";
     helpContent = helpContent + "<p>If you want, you can change give up on a level and see the solution by clicking the show button. The resistances are placed on their respective correct positions. The level however, isn't automatically changed automatically this time.</p>";
+    helpContent = helpContent + "<h3>Bugs</h3>";
+    helpContent = helpContent + "<p>To select an object, you need to click a little above the object. </p>";
     PIEupdateHelp(helpContent);
 }
 
@@ -419,22 +421,32 @@ function calculateResistance(){
         var y = pos.y / mySceneH * 2 - 1;
         var raycaster = new THREE.Raycaster();
         var location = new THREE.Vector2(x, y);
-        // geometry = new THREE.Geometry();
-        // geometry.vertices.push(new THREE.Vector3(pos.x, pos.y, 0));
-        // geometry.vertices.push(new THREE.Vector3(pos.x + 10, pos.y + 10, 0));
-        // material = new THREE.LineBasicMaterial();
-        // var g = new THREE.Line(geometry, material);
-        // PIEaddElement(g);
         // console.log(location);
         raycaster.setFromCamera(location, PIEcamera);
         var a = raycaster.intersectObjects(PIEscene.children, true);
-        console.log(a[0].object);
+        // console.log(a[0].object);
         if (a[0].object.parent.type != 'Group'){//console.log(a[0].object.parent);
             PIEscene.remove(tick);
             PIEscene.remove(cross);
-            mySolution = "";
-            html.innerHTML = "Your Answer: " + mySolution;
-            return;
+            var location = new THREE.Vector2(x + .04, y);
+            // console.log(location);
+            raycaster.setFromCamera(location, PIEcamera);
+            var a = raycaster.intersectObjects(PIEscene.children, true);
+            // console.log(a[0].object);
+            if (a[0].object.parent.type != 'Group'){//console.log(a[0].object.parent);
+                var location = new THREE.Vector2(x - .04, y);
+                // console.log(location);
+                raycaster.setFromCamera(location, PIEcamera);
+                var a = raycaster.intersectObjects(PIEscene.children, true);
+                // console.log(a[0].object);
+                if (a[0].object.parent.type != 'Group'){//console.log(a[0].object.parent);
+                    PIEscene.remove(tick);
+                    PIEscene.remove(cross);
+                    mySolution = "";
+                    html.innerHTML = "Your Answer: " + mySolution;
+                    return;
+                }
+            }
         }
         placedResistors[j] = a[0].object.parent.value;
     }
